@@ -1,0 +1,137 @@
+.boxtour .item{
+    border: 1px solid #ccc;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+
+}
+
+.start-linetour{
+    color: black;
+    font-size: 14px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid red;
+    outline: hidden;
+}
+
+.start-linetour::before{
+    content: '';
+    position: absolute;
+    height: 50%;
+    width: 3px;
+    background-color: red;
+    bottom: 0;
+    left: 34px;
+    z-index: -1;
+}
+
+
+.parent-linetour{
+    position: relative;
+    border-bottom: none !important;
+}
+
+.linetour:before{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 3px;
+    background-color: red;
+    top: 0;
+    left: 34px;
+    z-index: -1;
+}
+
+.content-linetour{
+    color: black;
+    font-size: 14px;
+    margin-left: 13px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid red;
+    outline: hidden;
+}
+
+.boxtour .item:hover{
+    box-shadow: inset;
+}
+.title-detailtour{
+    position: relative;
+}
+.title-detailtour h4::before{
+    position: absolute;
+    content: '';
+    height: 65%;
+    width: 3px;
+    background-color: red;
+    top: 6px;
+    left: -5px;
+}
+.boxtour .item .img img{
+    height: 200px;
+    width: 100%;
+    border-radius: 10px !important;
+}
+
+.title-index-parent-r{
+    position: relative;
+}
+
+.title-index-r{
+    margin-top: 20px;
+    font-weight: bold;
+    padding: 10px 0px;
+    font-family: monospace;
+}
+
+.title-index-r:before{
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background-color: red;
+    top: 90%;
+    left: 0px;
+    border-radius: 20px;
+}
+
+.title-index-parent{
+    position: relative;
+}
+
+.title-index{
+    margin-top: 20px;
+    font-weight: bold;
+    padding: 10px 0px;
+    font-family: monospace;
+}
+
+.title-index:before{
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background-color: greenyellow;
+    top: 90%;
+    left: 0px;
+    border-radius: 20px;
+}
+
+
+.clear{
+    clear: both;
+}
+.hint-place{
+    padding: 10px;
+}
+.hint-place .hint-place-item{
+    border-radius: 20%;
+    height: 50px;
+    width: 100%;
+    color: black;
+    border: 1px solid #ccc;
+}
