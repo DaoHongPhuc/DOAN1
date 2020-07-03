@@ -23,7 +23,23 @@ Route::group(['prefix' => 'admin','middleware'=>'adminlogin'], function () {
     Route::get('listadmin','AdminController@getListAdmin');
     Route::get('listguide','AdminController@getListGuide');
     Route::get('listblock','AdminController@getListBlock');
+    //place
+    Route::get('addplace','AdminController@getAddPlace');
+    Route::post('addplace','AdminController@postAddPlace');
+    Route::get('adddtplace','AdminController@getAddDTPlace');
+    Route::post('adddtplace','AdminController@postAddDTPlace');
 
+    Route::get('listplace','AdminController@getListPlace');
+    Route::get('listdtplace','AdminController@getListDTPlace');
+
+    Route::get('editplace/{idplace}','AdminController@getEditPlace');
+    Route::post('editplace/{idplace}','AdminController@postEditPlace');
+
+    Route::get('editdtplace/{iddtplace}','AdminController@getEditDTPlace');
+    Route::post('editdtplace/{iddtplace}','AdminController@postEditDTPlace');
+
+    Route::get('huyplace/{idplace}','AdminController@postHuyPlace');
+    Route::get('huydtplace/{iddtplace}','AdminController@postHuyDTPlace');
     // guide reg
     Route::get('guidereg','AdminController@getComfirmGuideReg');
     Route::get('guidereg/{idgr}','AdminController@postComfirmGuideReg');
@@ -44,6 +60,7 @@ Route::group(['middleware' => 'login'], function () {
 Route::get('chinhsach','HomeController@getChinhSach');
 
 Route::post('loginkh','HomeController@postLoginKH');
+Route::get('detaildd','HomeController@getDetailDD');
 Route::post('loginhdv','HomeController@postLoginHDV');
 
 Route::get('registerkh','HomeController@getRegisterKH');
@@ -84,6 +101,7 @@ Route::group(['prefix' => 'guide','middleware' => 'guide'], function () {
     Route::get('setting/{iduser}','GuideController@getSetting');
 
     //edit job
+    Route::get('editjob/{idjob}','GuideController@getDetailJob');
     Route::post('editjob/{idjob}','GuideController@postEditJob');
 
     //huy job
@@ -126,6 +144,8 @@ Route::group(['prefix' => 'customer','middleware' => 'customer'], function () {
     Route::post('comment/{idcus}/{idguide}','CustomerController@postComment');
 
     //edit tour
+    Route::get('detailtour/{idtour}','CustomerController@getDetailTour');
+    Route::get('edittour/{idtour}','CustomerController@getEditTour');
     Route::post('edittour/{idtour}','CustomerController@postEditTour');
 
     //huy tour

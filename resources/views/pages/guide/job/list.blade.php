@@ -42,45 +42,7 @@
                     
                     
                     <!-- Modal -->
-                    <div class="modal fade" id="editjob" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">EDIT JOB</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="guide/editjob/{{$j->id}}" method="post">
-                                        <div class="form-group">
-                                            <label for="">Thời gian bắt đầu ( đơn vị là: giờ )</label>
-                                            <input type="number" min="7" max="20" value="7" name="starttime" 
-                                            value="{{$j->starttime}}" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Thời gian kết thúc ( đơn vị là: giờ )</label>
-                                            <input type="number" min="7" max="20" value="20" name="endtime" 
-                                            value="{{$j->endtime}}" class="form-control">
-                
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Lương mỗi giờ ( $/h )</label>
-                                            <input type="number" min="1" max="15" name="price" 
-                                            value="{{$j->price}}" class="form-control"
-                                            placeholder="Giá đề nghị">
-                                        </div>
-                                        @csrf
-                                        <input type="hidden" name="ngaykhoihanh" value="{{$j->ngaykhoihanh}}">
-                                </div>
-                                <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     @php
                         $flask = false;
                         foreach($tour as $t){
@@ -107,7 +69,7 @@
                     @endphp
                     <td>
                         @if ($flask != true)
-                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#editjob">
+                        <button type="button" class="btn btn-primary editjob" data-id="{{$j->id}}" data-toggle="modal" data-target="#editjob">
                                 <i class="fas fa-edit"></i>
                             </button>
                         @endif
@@ -129,7 +91,45 @@
                 </tr>
                 
             @endforeach
+            <div class="modal fade" id="editjob" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">EDIT JOB</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="guide/editjob/{{$j->id}}" method="post">
+                                <div class="form-group">
+                                    <label for="">Thời gian bắt đầu ( đơn vị là: giờ )</label>
+                                    <input type="number" min="7" max="20" value="7" name="starttime" 
+                                    value="" class="form-control starttime">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Thời gian kết thúc ( đơn vị là: giờ )</label>
+                                    <input type="number" min="7" max="20" value="20" name="endtime" 
+                                    value="" class="form-control endtime">
+        
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Lương mỗi giờ ( $/h )</label>
+                                    <input type="number" min="1" max="15" name="price" 
+                                    value="" class="form-control price"
+                                    placeholder="Giá đề nghị">
+                                </div>
+                                @csrf
+                                <input type="hidden" name="ngaykhoihanh" value="{{$j->ngaykhoihanh}}">
+                        </div>
+                        <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
         </tbody>
     </table>
     <script>
@@ -148,6 +148,26 @@
         }
     </script>
 
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $(".editjob").click(function () { 
+                let id = $(this).data('id');
+                $.ajax({
+                    type: "get",
+                    url: "guide/editjob/"+id,
+                    dataType: "json",
+                    success: function (data) {
+                        $(".starttime").val(data.job.temp_starttime);
+                        $(".endtime").val(data.job.temp_endtime);
+                        $(".price").val(data.job.price);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
 
    

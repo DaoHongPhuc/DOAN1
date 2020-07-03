@@ -14,6 +14,8 @@ use App\BinhluanModel;
 use App\JobModel;
 use App\ReportModel;
 use App\DatCocModel;
+use App\DiaDiemModel;
+use App\DetailDDModel;
 
 
 class CustomerController extends Controller
@@ -138,6 +140,17 @@ class CustomerController extends Controller
 
         }
     }
+
+    public function getEditTour($idtour){
+        $tour = TourModel::find($idtour);
+        return response()->json(['tour'=>$tour]);
+    }
+
+    public function getDetailTour($idtour){
+        $tour = TourModel::find($idtour);
+        return response()->json(['tour'=>$tour]);
+    }
+
     public function postAddTour(Request $request, $idcus){
         $this->validate($request,
         [
@@ -221,8 +234,9 @@ class CustomerController extends Controller
 
     public function getAddTour($iduser){
         $user = User::find($iduser);
+        $diadiem = DiaDiemModel::all();
 
-        return view('pages.customer.tour.add',['user'=>$user]);
+        return view('pages.customer.tour.add',['diadiem'=>$diadiem,'user'=>$user]);
     }
 
     public function getListTour($iduser){

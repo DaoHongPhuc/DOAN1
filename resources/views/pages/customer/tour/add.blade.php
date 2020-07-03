@@ -23,8 +23,11 @@
             <div class="col-md-3">
                 <div class="form-group">
                 <label for="">Địa Điểm Muốn Đến</label>
-                <input type="text" name="diadiem" class="form-control" placeholder="" aria-describedby="helpId">
-                <small id="helpId" class="text-muted"></small>
+                    <select class="form-control" name="diadiem" id="">
+                        @foreach ($diadiem as $dd)
+                            <option value="{{$dd->id}}">{{$dd->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="col-md-3">

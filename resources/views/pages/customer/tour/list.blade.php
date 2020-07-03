@@ -31,31 +31,32 @@
                 </tr>
                 </thead>
                 <tbody>
+                    <div class="modal fade" id="detailtour" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">THÔNG TIN TOUR</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><b>Địa Điểm:</b> <span class="diadiem"></span></p> 
+                                    <p><b>Ngày khởi hành:</b> <span class="ngaykhoihanh"></span></p> 
+                                    <p><b>Lưu ý:</b> <span class="luuy"></span></p> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @foreach ($tour as $key => $t)
                         <tr >
                             <td class="parent-linetour">
                                 <span class="linetour"></span><span class="content-linetour">{{$key+1}}</span>
                             </td>
             
-                            <div class="modal fade" id="detailtour" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">THÔNG TIN TOUR</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p><b>Địa Điểm:</b> <span>{{$t->diadiem}}</span></p> 
-                                            <p><b>Ngày khởi hành:</b> <span>{{$t->ngaykhoihanh}}</span></p> 
-                                            <p><b>Lưu ý:</b> <span>{{$t->note}}</span></p> 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <td>
-                                <span data-toggle="modal" data-target="#detailtour">
+                                <span data-toggle="modal" data-id="{{$t->id}}" data-target="#detailtour" class="detailtour">
                                     {{$t->diadiem}}
                                 </span>
                             </td>
@@ -66,48 +67,12 @@
                                 <a href="customer/public/{{$t->id}}" class="btn btn-success text-white">CÓ</a>
                                 @endif
                             </td>
-                            <div class="modal fade" id="edittour" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">CẬP NHẬT TOUR</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="customer/edittour/{{$t->id}}" method="post">
-                                                @csrf
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="">Địa Điểm Muốn Đến</label>
-                                                    <input value="{{$t->diadiem}}" type="text" name="diadiem" class="form-control" placeholder="" aria-describedby="helpId">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="">Ngày Khởi Hành</label>
-                                                        <input value="{{$t->ngaykhoihanh}}" type="date" name="ngaykhoihanh" class="form-control" placeholder="" aria-describedby="helpId">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="">Lưu ý</label>
-                                                        <textarea name="note" class="form-control" rows="5">{{$t->note}}</textarea>
-                                                    </div>
-                                                </div>
-                                            
-                                        </div>
-                                        <div class="modal-footer">
-                                                <button type="submit" class="btn btn-success">LƯU</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
+                            
                             <td>
                                 @if ($t->statuspublic == 0)
-                                    <span data-toggle="modal" class="btn btn-success" data-target="#edittour">
+                            <span data-toggle="modal" class="btn btn-success edittour" data-id="{{$t->id}}" data-target="#edittour">
                                         <i class="fa fa-edit" aria-hidden="true"></i>
                                     </span>
                                 @endif
@@ -121,6 +86,49 @@
                             </td>
                         </tr>
                     @endforeach
+                    <div class="modal fade" id="edittour" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">CẬP NHẬT TOUR</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="customer/edittour/{{$t->id}}" method="post">
+                                        @csrf
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Địa Điểm Muốn Đến</label>
+                                            <input value="" type="text" name="diadiem" 
+                                            class="form-control diadiem" placeholder="" aria-describedby="helpId">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Ngày Khởi Hành</label>
+                                                <input value="" type="date" 
+                                                name="ngaykhoihanh" class="form-control ngaykhoihanh" placeholder="" 
+                                                aria-describedby="helpId">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Lưu ý</label>
+                                                <textarea name="note" class="form-control note" 
+                                                rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">LƯU</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tbody>
             </table>
         </div>
@@ -140,4 +148,40 @@
             }
         }
    </script>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $(".detailtour").click(function (e) { 
+                e.preventDefault();
+                let id = $(this).data('id');
+                $.ajax({
+                    type: "get",
+                    url: "customer/detailtour/"+id,
+                    dataType: "json",
+                    success: function (data) {
+                        $(".diadiem").html(data.tour.diadiem);
+                        $(".ngaykhoihanh").html(data.tour.ngaykhoihanh);
+                        $(".luuy").html(data.tour.note);
+                    }
+                });                
+            });
+            $(".edittour").click(function (e) { 
+                e.preventDefault();
+                let id = $(this).data('id');
+                $.ajax({
+                    type: "get",
+                    url: "customer/edittour/"+id,
+                    dataType: "json",
+                    success: function (data) {
+                        $(".diadiem").val(data.tour.diadiem);
+                        $(".ngaykhoihanh").val(data.tour.ngaykhoihanh);
+                        $(".note").val(data.tour.note);
+                    }
+                });                
+            });
+            
+        });
+    </script>
 @endsection

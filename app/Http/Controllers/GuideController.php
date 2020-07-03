@@ -16,7 +16,11 @@ use App\BinhluanModel;
 
 class GuideController extends Controller
 {
-    
+    public function getDetailJob($idjob){
+        $job = JobModel::find($idjob);
+
+        return response()->json(['job'=>$job]);
+    }
 
     public function getHome(){
         return view('pages.guide.index');

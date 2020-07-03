@@ -19,9 +19,9 @@
 
     {{-- menu --}}
     <ul class="nav menu">
-        <li class="active"><a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+        <li class=""><a href="index.html"><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a></li>
         <li class="parent "><a data-toggle="collapse" href="#sub-item-1">
-            <em class="fa fa-navicon">&nbsp;</em> Users <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
+            <i class="fa fa-user" aria-hidden="true"></i> Users <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
             </a>
             <ul class="children collapse" id="sub-item-1">
                 <li><a href="admin/listadmin" class="">
@@ -39,7 +39,7 @@
             </ul>
         </li>
         <li class="parent "><a data-toggle="collapse" href="#sub-item-2">
-            <em class="fa fa-navicon">&nbsp;</em> Notificate <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
+            <i class="fa fa-envelope" aria-hidden="true"></i> Notificate <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
             </a>
             <ul class="children collapse" id="sub-item-2">
                 <li><a href="admin/guidereg" class="">
@@ -53,6 +53,24 @@
                 </a></li>
                 <li><a href="admin/" class="">
                     <span class="fa fa-arrow-right">&nbsp;</span> Block
+                </a></li>
+            </ul>
+        </li>
+        <li class="parent "><a data-toggle="collapse" href="#sub-item-3">
+            <i class="fas fa-map-marked-alt    "></i> Place <span data-toggle="collapse" href="#sub-item-3" class="icon pull-right"><em class="fa fa-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-3">
+                <li><a href="admin/addplace" class="">
+                    <span class="fa fa-arrow-right">&nbsp;</span> Add Place
+                </a></li>
+                <li><a href="admin/listplace" class="">
+                    <span class="fa fa-arrow-right">&nbsp;</span> List Place
+                </a></li>
+                <li><a href="admin/adddtplace" class="">
+                    <span class="fa fa-arrow-right">&nbsp;</span> Add Detail Place
+                </a></li>
+                <li><a href="admin/listdtplace" class="">
+                    <span class="fa fa-arrow-right">&nbsp;</span> List Detail Place
                 </a></li>
             </ul>
         </li>

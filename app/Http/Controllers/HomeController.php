@@ -13,6 +13,8 @@ use App\TourModel;
 use App\JobModel;
 use App\DatCocModel;
 use App\GuideRegModel;
+use App\DiaDiemModel;
+use App\DetailDDModel;
 
 class HomeController extends Controller
 {
@@ -115,11 +117,19 @@ class HomeController extends Controller
     }
 
     public function getRegisterHDV(){
-        return view('registerhdv');
+        $diadiem = DiaDiemModel::all();
+        $detaildd = DetailDDModel::all();
+        return view('registerhdv',['diadiem'=>$diadiem,'detaildd'=>$detaildd]);
+    }
+
+    public function getDetailDD(Request $request){
+        $diadiemid = $request->diadiemid;
+        $detaildd = DB::table('detail_dd')->where('diadiem_id','=',$diadiemid)->where('status','=',1)->get();
+        
+        return response()->json(['detaildd'=>$detaildd]);
     }
 
     public function postRegisterHDV(Request $request){
-
         $this->validate($request,
         [
             'email'=>'required',

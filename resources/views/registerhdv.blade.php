@@ -98,27 +98,34 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">Địa điểm của bạn</label>
-                        <input type="text" name="local" class="form-control" placeholder="">
-                        <small class="text-muted">Nha Trang</small>
+                        <label for="">Địa điểm hướng dẫn của bạn</label>
+                        <select class="form-control local" name="local" >
+                            <option value="">Chọn địa điểm của bạn</option>
+
+                            @foreach ($diadiem as $dd)
+                                <option value="{{$dd->id}}">{{$dd->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="">Lịch trình của bạn</label>
-                        <input type="text" name="detaillocal" class="form-control" placeholder="">
-                        <small class="text-muted">Lambiang - Hồ Xuân Hương - Chợ Đà Lạt</small>
+                        <label for="">Lịch trình hướng dẫn của bạn</label>
+                        <select class="form-control detaillocal" name="detaillocal" >
+                            @foreach ($detaildd as $dtdd)
+                            <option value="{{$dtdd->id}}">{{$dtdd->name}}</option>
+                                
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Mô tả Bản thân</label>
                         <br>
-                        <textarea name="desself" id="" cols="71" rows="5" class="" style=""></textarea>                        
+                        <textarea name="desself"  cols="71" rows="5" class="" style=""></textarea>                        
                     </div>
                     <div class="form-group">
                         <label for="">Sơ lược về lịch trình</label>
-                        <textarea name="deslocal" id="" cols="71" rows="5" class="" style=""></textarea>                        
-
-                        
+                        <textarea name="deslocal"  cols="71" rows="5" class="" style=""></textarea>                        
                     </div>
                 </div>
             </div>
@@ -144,14 +151,33 @@
     <script src="./js/all.js"></script>
     <script src="./js/districts.min.js"></script>
     <script src="./js/script.js"></script>
-    @yield('script')
-
     <script>
         $(document).ready(function () {
-            $("").select(function () { 
-                
+            $(".local").change(function (e) { 
+                e.preventDefault();
+                let id = $(this).val();
+                $.ajax({
+                    type: "get",
+                    url: "detaildd",
+                    data: {
+                        diadiemid : id,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        let html = '';
+                        $.each(data.detaildd, function (key, value) { 
+                            html += '<option value="'+value['id']+'">';
+                                html += value['name'];
+                            html += '</option>';
+                        });
+                        $('.detaillocal').html(html);
+                    }
+                });
             });
         });
     </script>
+    @yield('script')
+
+   
 </body>
 </html>
