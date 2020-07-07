@@ -6,205 +6,172 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use App\CustomerModel;
-use App\GuideModel;
 use App\User;
-use App\TourModel;
-use App\JobModel;
-use App\DatCocModel;
-use App\GuideRegModel;
 use App\DiaDiemModel;
-use App\DetailDDModel;
+use App\LichTrinhModel;
+use App\HanhTrinhModel;
+use App\DatCocModel;
 
 class HomeController extends Controller
 {
- 
+    public function getListSapToi(){
+
+        $alluser = User::all();
+        $diadiem = DiaDiemModel::all();
+        
+
+        if(Auth::check()){
+            $user = Auth::user();
+            $iduser = $user->id;
+            $lichtrinh = LichTrinhModel::all();
+            $hanhtrinh = HanhTrinhModel::all();
+            if($user->level == 1){
+                $datcoc = DB::table('datcoc')->where('customer_id','=',$iduser)->get();
+            }elseif($user->level == 2){
+                $datcoc = DB::table('datcoc')->where('guide_id','=',$iduser)->get();
+            }else{
+                $datcoc = DB::table('datcoc')->get();
+                
+            }
+        }
+
+        return view('pages.danhsachsaptoi',[
+            'lichtrinh'=>$lichtrinh,
+            'datcoc'=>$datcoc,
+            'diadiem'=>$diadiem,
+            'hanhtrinh'=>$hanhtrinh,
+            'alluser'=>$alluser,
+            ]);
+    }
+    
+    public function getTaiKhoan(){
+
+        return view('pages.taikhoan');
+    }
+
+    public function postTaiKhoan(Request $request){
+        if(Auth::check()){
+            $user = Auth::user();
+            $iduser = $user->id;
+        }
+
+        $user = User::find($iduser);
+        $user->taikhoan += $request->money;
+        $user->save();
+       
+        return redirect()->back()->with('thongbao','Nạp Thành Công');
+
+    }
+    public function getChiTietLT($idlt){
+        if(Auth::check()){
+            $user = Auth::user();
+            $iduser = $user->id;
+        }
+        $lichtrinh = LichTrinhModel::find($idlt);
+        $hanhtrinh = DB::table('hanhtrinh')->where('lichtrinh_id','=',$idlt)->get();
+        $diadiem = DiaDiemModel::all();
+
+        $job = DB::table('job')->where('user_id','=',$iduser)->get();
+        
+        return view('pages.chitietlichtrinh',[
+            'diadiem'=>$diadiem,
+            'job'=>$job,
+            'hanhtrinh'=>$hanhtrinh,
+            'lichtrinh'=>$lichtrinh]);
+    }
+
     public function getHome(){
-        $tour = DB::table('tours')->where('statuspublic','=',1)->where('status','=',0)->orderBy('timepublic','desc')->get();
-        $customer = DB::table('customer')->get();
-        return view('pages.home',['tour'=>$tour,'customer'=>$customer]);
+        $lichtrinh = LichTrinhModel::all()->where('status','=',1);
+        $hanhtrinh = HanhTrinhModel::all();
+        $diadiem = DiaDiemModel::all();
+
+        return view('pages.home',['diadiem'=>$diadiem,'hanhtrinh'=>$hanhtrinh,'lichtrinh'=>$lichtrinh]);
     }
 
     public function getLogin(){
         return view('login');
     }
 
-    public function postLoginKH(Request $request){
-        $this->validate($request,
-        [
-            'email'=>'required',
-            'password'=>'required|min:3',
-        ],
-        [
-            'email.required'=>'Bạn chưa nhập Email',
-            'password.required'=>'Bạn chưa nhập Password',
-        ]);
-
-
+    public function postLogin(Request $request){
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            $user = Auth::user();
-            $level = $user->level;
-            if($level == 2){
-                return redirect('guide/');
-            }else{
-                return redirect('customer/');
-            }
+            return redirect('/');
         }else{
-            return redirect('login')->with('thongbao','Đăng nhập không thành công');
+            return redirect()->back()->with('thongbao','Đăng Nhập Không Thành Công');
         }
-        
     }
-   
 
-    public function getRegisterKH(){
+    public function getRegister(){
         return view('registerkh');
     }
 
-    public function postRegisterKH(Request $request){
-        $today = Date('H:s:i');
-        
+    public function postRegister(Request $request){
         $this->validate($request,
         [
-            'email'=>'required',
-            'password'=>'required|min:3',
-            'repassword'=>'required|same:password',
             'name'=>'required',
-            'address'=>'required',
-            'phone'=>'required',
-            'gender'=>'required',
-            'image'=>'required',
+            'email'=>'required',
+            're_password'=>'same:password',
+            'password'=>'required|min:3',
         ],
         [
-            'email.required'=>'Bạn chưa nhập Email',
-            'password.required'=>'Bạn chưa nhập Password',
-            'password.min'=>'Password tối thiểu là 3 ký tự',
-            'repassword.required'=>'Bạn chưa nhập Email',
-            'repassword.same'=>'Nhập lại Password không trùng khớp',
-            'name.required'=>'Bạn chưa nhập Họ và Tên',
-            'address.required'=>'Bạn chưa nhập Địa Chỉ',
-            'phone.required'=>'Bạn chưa nhập Số Điện Thoại',
-            'gender.required'=>'Bạn chưa nhập Giới Tính',
-            'image.required'=>'Bạn chưa nhập Ảnh Đại Diện',
+            'email.required'=>'Chưa nhập Email',
+            'name.required'=>'Chưa nhập Name',
+            'password.required'=>'Chưa nhập Password',
+            'password.min'=>'Password tối thiểu 3 ký tự',
+            're_password.same'=>'Mật khẩu không trùng khớp',
         ]);
-
-        //user
+        
         $user = new User;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
+        $user->name = $request->name;
+        $user->diadiem = null;
+        $user->taikhoan = "0";
         $user->level = "1";
 
         $user->save();
-        //kh
-        $customer = new CustomerModel;
-        $customer->user_id = $user->id;
-        $customer->name = $request->name;
-        $customer->address = $request->address;
-        $customer->gender = $request->gender;
-        $customer->phone = $request->phone;
-        $customer->money = "0";
-
-        if($request->hasFile('image')){
-
-            $hinhanh = $request->image;
-            $name = $hinhanh->getClientOriginalName();
-
-            $hinhanh->move('./upload/traveller',$name);
-            $customer->image = $name;
-        }
-
-        $customer->save();
-        return redirect()->back()->with('thongbao','Đăng ký tài khoản khách hàng thành công !');
+        return redirect()->back()->with('thongbao','Đăng Ký Thành Công !');
     }
 
     public function getRegisterHDV(){
         $diadiem = DiaDiemModel::all();
-        $detaildd = DetailDDModel::all();
-        return view('registerhdv',['diadiem'=>$diadiem,'detaildd'=>$detaildd]);
-    }
 
-    public function getDetailDD(Request $request){
-        $diadiemid = $request->diadiemid;
-        $detaildd = DB::table('detail_dd')->where('diadiem_id','=',$diadiemid)->where('status','=',1)->get();
-        
-        return response()->json(['detaildd'=>$detaildd]);
+        return view('registerhdv',['diadiem'=>$diadiem]);
     }
 
     public function postRegisterHDV(Request $request){
         $this->validate($request,
         [
-            'email'=>'required',
-            'password'=>'required|min:3',
-            'repassword'=>'required|same:password',
             'name'=>'required',
-            'address'=>'required',
-            'phone'=>'required',
-            'gender'=>'required',
-            'image'=>'required',
-            'local'=>'required',
-            'detaillocal'=>'required',
-            'desself'=>'required',
-            'deslocal'=>'required',
+            'email'=>'required',
+            're_password'=>'same:password',
+            'password'=>'required|min:3',
+            'diadiem'=>'required',
         ],
         [
-            'email.required'=>'Bạn chưa nhập Email',
-            'password.required'=>'Bạn chưa nhập Password',
-            'password.min'=>'Password tối thiểu là 3 ký tự',
-            'repassword.required'=>'Bạn chưa nhập Email',
-            'repassword.same'=>'Nhập lại Password không trùng khớp',
-            'name.required'=>'Bạn chưa nhập Họ và Tên',
-            'address.required'=>'Bạn chưa nhập Địa Chỉ',
-            'phone.required'=>'Bạn chưa nhập Số Điện Thoại',
-            'gender.required'=>'Bạn chưa nhập Giới Tính',
-            'image.required'=>'Bạn chưa nhập Ảnh Đại Diện',
-            'local.required'=>'Bạn chưa nhập Địa Điểm',
-            'detaillocal.required'=>'Bạn chưa nhập Lịch Trinh',
-            'desself.required'=>'Bạn chưa nhập Mô Tả Bản Thân',
-            'deslocal.required'=>'Bạn chưa nhập Sơ Lược Về Lịch Trình',
+            'email.required'=>'Chưa nhập Email',
+            'diadiem.required'=>'Chưa nhập Địa Điểm',
+            'name.required'=>'Chưa nhập Name',
+            'password.required'=>'Chưa nhập Password',
+            'password.min'=>'Password tối thiểu 3 ký tự',
+            're_password.same'=>'Mật khẩu không trùng khớp',
         ]);
-
-        // hdv
-        $guide = new GuideRegModel;
-        $guide->email = $request->email;
-        $guide->password = bcrypt($request->password);
-        $guide->name = $request->name;
-        $guide->address = $request->address;
-        $guide->gender = $request->gender;
-        $guide->phone = $request->phone;
-
-        if($request->hasFile('image')){
-
-            $hinhanh = $request->image;
-            $name = $hinhanh->getClientOriginalName();
-
-            $hinhanh->move('./upload/guide',$name);
-            $guide->image = $name;
-        }
-
-        $guide->local = $request->local;
-        $guide->detaillocal = $request->detaillocal;
-        $guide->desself = $request->desself;
-        $guide->deslocal = $request->deslocal;
-
-        $guide->save();
-        return redirect()->back()->with('thongbao','Đăng ký thành công, chờ ADMIN xác nhận !');
-    }
-
-    public function getFP(){
-        return view('forgetpassword');
-    }
-    public function getTourDetail($idtour){
-        $tour = TourModel::find($idtour);
-
-        return view('pages.chitiettour',['tour'=>$tour]);
-    }
-
-    public function getLogOut(){
-        Auth::logout();
-        return redirect('login');
         
+        $user = new User;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->name = $request->name;
+        $user->diadiem = $request->diadiem;
+        $user->taikhoan = "0";
+        $user->level = "2";
+
+        $user->save();
+        return redirect()->back()->with('thongbao','Đăng Ký Thành Công !');
     }
 
-    public function getChinhSach(){
-        return view('chinhsach');
+    public function getLogout(){
+        Auth::logout();
+
+        return redirect('home');
     }
+    
 }

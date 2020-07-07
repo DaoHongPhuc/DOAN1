@@ -21,8 +21,6 @@ class AdminLoginMiddleware
             $level = $user->level;
             if($level == 0){ // 0 la admin
                 return $next($request);
-            }else{
-                return redirect('admin/login')->with('thongbao','Đăng nhập không thành công');
             }
         }else{
             return redirect('admin/login')->with('thongbao','Đăng nhập không thành công');

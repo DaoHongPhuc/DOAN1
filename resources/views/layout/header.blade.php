@@ -11,17 +11,19 @@
                             $user = Auth::user();
                         @endphp
                         <div class="btn-group dropleft">
-                        @if ($user->level == 2) 
-                            <li><a href="guide" class="nav-link">JOBS</a></li>
+                        @if ($user->level == 0) 
+                            <li><a href="danhsachjob" class="nav-link">JOBS</a></li>
+                            <li><a href="danhsachlichtrinh" class="nav-link">TOURS</a></li>
                         @else
-                            <li><a href="customer" class="nav-link">TOURS</a></li>
+                            @if ($user->level == 1)
+                                <li><a href="danhsachlichtrinh" class="nav-link">TOURS</a></li>
+                            @else
+                                <li><a href="danhsachjob" class="nav-link">JOBS</a></li>
+                            @endif
                         @endif
                     @endif
-                    <li><a href="chinhsach" class="nav-link">CHÍNH SÁCH</a></li>
-
                 </ul>
                 <section>
-                    
                     @if (Auth::check())
                         @php
                             $user = Auth::user();
@@ -32,13 +34,13 @@
                             </button>
                             <div class="dropdown-menu" style="font-family: 'Times New Roman', Times, serif"> 
                                 @if ($user->level == 2) 
-                                    <span class="dropdown-item">{{$user->guide->name}}</span>    
+                                    <span class="dropdown-item">{{$user->name}}</span>    
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="guide/information/{{$user->id}}">MY PROFILE</a>
+                                    <a class="dropdown-item" href="guide/information/">MY PROFILE</a>
                                 @else
-                                    <span class="dropdown-item">{{$user->customer->name}}</span>    
+                                    <span class="dropdown-item">{{$user->name}}</span>    
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="customer/information/{{$user->id}}">MY PROFILE</a>
+                                    <a class="dropdown-item" href="customer/information/">MY PROFILE</a>
                                 @endif
                                 
                                 <a class="dropdown-item" href="logout">LOG OUT</a>
@@ -49,9 +51,6 @@
                             LOGIN
                         </a>      
                     @endif
-                    
-
-                               
                 </section>
             </div>
         </nav>

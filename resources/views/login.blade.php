@@ -38,10 +38,12 @@
                         </div>
                         
                         <div class="login-content">
-                            <form action="loginkh" method="post">
+                            <form action="login" method="post">
                                 @csrf
-                                <input type="email" class="form-control" name="email" placeholder="Email" autofocus> <br>
-                                <input type="password" class="form-control" name="password" placeholder="Password"> <br>
+                                <input type="email" class="form-control" name="email" placeholder="Email" 
+                                autofocus> <br>
+                                <input type="password" class="form-control" name="password" 
+                                placeholder="Password"> <br>
                                 <input type="checkbox">  <span>  Lưu tài khoản</span>
                         </div>
                         <div class="login-footer pb-2">
@@ -58,7 +60,7 @@
                 <div class="col-md-4 border" style="border-radius: 10px; box-shadow: inset 0px 0px 0px 1px #ccc">
                     <p class="mt-3">
                         Chưa có tài khoản ? 
-                        <a href="registerkh" class="float-right">Đăng ký ngay !</a>
+                        <a href="register" class="float-right">Đăng ký ngay !</a>
                     </p>   
                     <hr>
                     <p>

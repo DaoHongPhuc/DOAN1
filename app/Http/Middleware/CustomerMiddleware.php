@@ -19,11 +19,10 @@ class CustomerMiddleware
         if(Auth::check()){
             $user = Auth::user();
             $level = $user->level;
-            if($level == 1){ // 1 la customer
+            if($level == 1 || $level == 0){ // 1 la customer
                 return $next($request);
             }else{
-                Auth::logout();
-                return redirect('login')->with('thongbao','Đăng nhập bằng tài khoản khách hàng để sử dụng chức năng');
+                return redirect()->back()->with('thongbao','Cần tài khoản Khách Hàng để sử dụng chức năng');
             }
         }else{
             return redirect('login')->with('thongbao','Đăng nhập để sử dụng chức năng');

@@ -6,54 +6,16 @@
     padding: 10px;
 
 }
-
-.start-linetour{
-    color: black;
-    font-size: 14px;
-    padding: 5px;
-    background-color: white;
-    border-radius: 50%;
-    border: 2px solid red;
-    outline: hidden;
-}
-
-.start-linetour::before{
-    content: '';
+.home-hanhtrinh:before{
     position: absolute;
-    height: 50%;
-    width: 3px;
-    background-color: red;
-    bottom: 0;
-    left: 34px;
-    z-index: -1;
-}
-
-
-.parent-linetour{
-    position: relative;
-    border-bottom: none !important;
-}
-
-.linetour:before{
     content: '';
-    position: absolute;
-    height: 100%;
-    width: 3px;
-    background-color: red;
-    top: 0;
-    left: 34px;
-    z-index: -1;
-}
-
-.content-linetour{
-    color: black;
-    font-size: 14px;
-    margin-left: 13px;
-    padding: 5px;
-    background-color: white;
+    height: 15px;
+    width: 15px;
     border-radius: 50%;
-    border: 2px solid red;
-    outline: hidden;
+    background-color: red;
+    border: 2px solid orange;
+    top: 34px;
+    left: 50px;
 }
 
 .boxtour .item:hover{

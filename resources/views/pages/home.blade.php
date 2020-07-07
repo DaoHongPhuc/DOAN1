@@ -6,7 +6,7 @@
     $user = Auth::user();
 @endphp
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="container">
             @if(count($errors) > 0)
                 <div class="alert alert-danger" role="alert">
@@ -21,80 +21,81 @@
                     {{session('thongbao')}}
                 </div>
             @endif
-            <div class="title-index-parent">
-                <h2 class="title-index">MỘT SỐ ĐỊA ĐIỂM DU LỊCH HẤP DẪN</h2>
-            </div>
             
             <div class="title-index-parent">
-                <h2 class="title-index">TOUR GẦN ĐÂY</h2>
+                <h2 class="title-index">LỊCH TRÌNH CÔNG BỐ GẦN ĐÂY</h2>
             </div>
-            <div class="row">
-                @foreach ($tour as $t)
-                <input type="hidden" value="{{$t->present}}" class="tourpresent">
-                <input type="hidden" value="{{$t->timepublic}}" class="tourtimepublic">
-                    <div class="col-md-3" style="border-radius: 10px">
-                        <div class="boxtour">
-                            <div class="item">
-                                <div class="img">
-                                    <img src="./img/default.PNG" alt="">
+            @foreach ($lichtrinh as $lt)
+                @if ($lt->status == 1)
+                <input type="hidden" class="present" value="{{$lt->present}}">
+                <input type="hidden" class="public" value="{{$lt->public}}">
+                    <div class="row ml-2 mt-4">
+                        <div class="col-md-9 border p-2" style="border-radius: 10px">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="" style="height: 100%; width: 100%; background-color: red;" >
+                                    </div>
                                 </div>
-                                <div class="contenttour mt-2 d-flex justify-content-around">
-                                    <p><i class="fa fa-map-marker-alt" aria-hidden="true" style="color: green;"></i>&nbsp;{{$t->diadiem}}</p>
-                                    <p><i class="fas fa-calendar-alt" style="color: red;"></i>&nbsp;{{$t->ngaykhoihanh}}</p>
-                                </div>
-                                    @foreach ($customer as $c)
-                                        @if ($c->id == $t->cus_id)
-                                            <div class="d-flex justify-content-around">
-                                                <small class="text-muted">
-                                                    <i class="fa fa-user" style="color: #4949ff" aria-hidden="true"></i>
-                                                        &nbsp;{{$c->name}}&nbsp;&nbsp;
-                                                    <i class="fa fa-stopwatch" style="color: #ff9900" aria-hidden="true"></i>
-                                                        &nbsp;<span class="tourtime"></span>
-                                                </small>
-                                            </div>
-                                        @else
-                                            {{""}}
+                                <div class="col-md-9">
+                                    <b>MÃ SỐ: {{$lt->name}}</b>
+                                    <span class="float-right">
+                                        <i class="fa fa-stopwatch text-muted" style="" aria-hidden="true"></i>
+                                        <span class="time"></span>
+                                        &nbsp;&nbsp;
+                                        @if (Auth::check())
+                                            <a href="chitietlichtrinh/{{$lt->id}}" >
+                                                Xem <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
                                         @endif
-                                    @endforeach
-                                <hr>
-                                <div class="tour-footer">
-                                    <a href="tourdetail/{{$t->id}}" class="btn btn-success float-right">Chi tiết tour</a>
+                                        
+                                        <div class="clear"></div>
+                                    </span>
+                                    <hr>
+                                    <div class="row" style="position: relative">
+                                        @foreach ($hanhtrinh as $ht)
+                                            @if ($ht->lichtrinh_id == $lt->id)
+                                                <div class="col-md-2  text-center home-hanhtrinh" style="padding: 0px !important">
+                                                    {{$ht->ngaykhoihanh}}
+                                                    <hr style="height: 3px; background-color: orange">
+                                                    @foreach ($diadiem as $dd)
+                                                        @if ($dd->id == $ht->diadiem_id)
+                                                            {{$dd->name}}
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 </div>
-                                <div class="clear"></div>
                             </div>
                         </div>
                     </div>
-                @endforeach
-            </div>
+                @endif
+            @endforeach
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="title-index-parent">
-            <h2 class="title-index">TOP GUIDE</h2>
-        </div>
-        
     </div>
 </div>
 
 @endsection
 
 @section('script')
-    <script>
-        
-        var present = document.getElementsByClassName("tourpresent");
-        var timepublic = document.getElementsByClassName("tourtimepublic");
+    
+<script>        
+    var present = document.getElementsByClassName("present");
+    var timepublic = document.getElementsByClassName("public");
 
-        var countclass = document.getElementsByClassName("tourtime");
-        
-        for (let i = 0; i < countclass.length; i++) {
-            var p = moment(present[i].value);
-            var b = moment(timepublic[i].value);
-            var result = p.to(b);
+    var countclass = document.getElementsByClassName("time");
+    
+    for (let i = 0; i < countclass.length; i++) {
+        var p = moment(present[i].value);
+        var b = moment(timepublic[i].value);
+        var result = p.to(b);
 
-            if(result === "in an hour"){
-                result = "over 45m";
-            }
-            countclass[i].innerHTML = result;
+        if(result === "in an hour"){
+            result = "over 45m";
         }
-    </script>
+        countclass[i].innerHTML = result;
+    }
+</script>
 @endsection

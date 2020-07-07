@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <span class="mr-3">Bạn là ai ?</span>
-                    <a href="registerkh" class="mr-2">Khách Hàng</a> 
+                    <a href="register" class="mr-2">Khách Hàng</a> 
                     <a href="registerhdv">Hướng Dẫn Viên</a> 
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <hr>
             <div class="row" >
                 <div class="col-md-6">
-                    <form action="registerkh" method="post" enctype="multipart/form-data">
+                <form action="register" method="post" enctype="multipart/form-data">
                         @csrf
                     <div class="form-group">
                         <label for="">Email</label>
@@ -70,17 +70,17 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Địa chỉ</label>
-                        <input type="text" name="address" class="form-control" placeholder="">
-                        
+                        <input type="text" name="address" class="form-control " disabled placeholder="">
+                         
                     </div>
                     <div class="form-group">
                         <label for="">Số điện thoại</label>
-                        <input type="text" name="phone" class="form-control" placeholder="">
+                        <input type="text" name="phone" class="form-control " disabled placeholder="">
                         
                     </div>
                     <div class="form-group">
                         <label for="">Giới tính</label>
-                        <select class="form-control" name="gender">
+                        <select class="form-control " disabled name="gender">
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
                         </select>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Ảnh Đại Diện</label>
-                        <input type="file" name="image" class="form-control" placeholder="">
+                        <input type="file" name="image" disabled class="form-control " placeholder="">
                         
                     </div>
                     
@@ -118,14 +118,5 @@
     <script src="./js/all.js"></script>
     <script src="./js/districts.min.js"></script>
     <script src="./js/script.js"></script>
-    @yield('script')
-
-    <script>
-        $(document).ready(function () {
-            $("").select(function () { 
-                
-            });
-        });
-    </script>
 </body>
 </html>

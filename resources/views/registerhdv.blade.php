@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <span class="mr-3">Bạn là ai ?</span>
-                    <a href="registerkh" class="mr-2">Khách Hàng</a> 
+                    <a href="register" class="mr-2">Khách Hàng</a> 
                     <a href="registerhdv">Hướng Dẫn Viên</a> 
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <hr>
-            <div class="row" >
+            <div class="row">
                 <div class="col-md-6">
                     <form action="registerhdv" method="post" enctype="multipart/form-data">
                         @csrf
@@ -69,17 +69,17 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Địa chỉ</label>
-                        <input type="text" name="address" class="form-control" placeholder="">
+                        <input type="text" name="address" class="form-control" disabled placeholder="">
                         
                     </div>
                     <div class="form-group">
                         <label for="">Số điện thoại</label>
-                        <input type="text" name="phone" class="form-control" placeholder="">
+                        <input type="text" name="phone" class="form-control" disabled placeholder="">
                         
                     </div>
                     <div class="form-group">
                         <label for="">Giới tính</label>
-                        <select class="form-control" name="gender">
+                        <select class="form-control" name="gender" disabled>
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
                         </select>
@@ -87,9 +87,8 @@
                     </div>
                     <div class="form-group">
                         <label for="">Hình ảnh</label>
-                        <input type="file" name="image" class="form-control" placeholder="">
+                        <input type="file" name="image" class="form-control" disabled placeholder="">
                     </div>
-                    
                 </div>
                 <hr>
             </div>
@@ -99,20 +98,10 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Địa điểm hướng dẫn của bạn</label>
-                        <select class="form-control local" name="local" >
-                            <option value="">Chọn địa điểm của bạn</option>
-
+                        <select class="form-control local" name="diadiem" >
+                            
                             @foreach ($diadiem as $dd)
                                 <option value="{{$dd->id}}">{{$dd->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Lịch trình hướng dẫn của bạn</label>
-                        <select class="form-control detaillocal" name="detaillocal" >
-                            @foreach ($detaildd as $dtdd)
-                            <option value="{{$dtdd->id}}">{{$dtdd->name}}</option>
-                                
                             @endforeach
                         </select>
                     </div>
@@ -121,11 +110,11 @@
                     <div class="form-group">
                         <label for="">Mô tả Bản thân</label>
                         <br>
-                        <textarea name="desself"  cols="71" rows="5" class="" style=""></textarea>                        
+                        <textarea disabled name="desself"  cols="71" rows="5" class="" style=""></textarea>                        
                     </div>
                     <div class="form-group">
                         <label for="">Sơ lược về lịch trình</label>
-                        <textarea name="deslocal"  cols="71" rows="5" class="" style=""></textarea>                        
+                        <textarea disabled name="deslocal"  cols="71" rows="5" class="" style=""></textarea>                        
                     </div>
                 </div>
             </div>
@@ -151,33 +140,5 @@
     <script src="./js/all.js"></script>
     <script src="./js/districts.min.js"></script>
     <script src="./js/script.js"></script>
-    <script>
-        $(document).ready(function () {
-            $(".local").change(function (e) { 
-                e.preventDefault();
-                let id = $(this).val();
-                $.ajax({
-                    type: "get",
-                    url: "detaildd",
-                    data: {
-                        diadiemid : id,
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        let html = '';
-                        $.each(data.detaildd, function (key, value) { 
-                            html += '<option value="'+value['id']+'">';
-                                html += value['name'];
-                            html += '</option>';
-                        });
-                        $('.detaillocal').html(html);
-                    }
-                });
-            });
-        });
-    </script>
-    @yield('script')
-
-   
 </body>
 </html>

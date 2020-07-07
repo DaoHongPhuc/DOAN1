@@ -1,173 +1,102 @@
 @extends('pages.guide.index')
 
 @section('job-content')
+<div class="title-index-parent">
+    <h2 class="title-index">DANH SÁCH HÀNH TRÌNH ĐÃ NHẬN</h2>
+</div>
 @if(count($errors) > 0)
     <div class="alert alert-danger" role="alert">
         @foreach ($errors->all() as $err)
             {{$err}}. <br>
         @endforeach
     </div>
-    @endif
+@endif
 
-    @if(session('thongbao'))
+@if(session('thongbao'))
     <div class="alert alert-primary" role="alert">
         {{session('thongbao')}}
     </div>
 @endif
-<div class="title-index-parent">
-    <h2 class="title-index">DANH SÁCH JOB</h2>
-</div>
-    <table data-toggle="table">
-        <thead>
-        <tr>
-            <th>STT</th>
-            <th>LƯƠNG</th>
-            <th>NGÀY KHỞI HÀNH</th>
-            <th>THỜI GIAN BẮT ĐẦU</th>
-            <th>THỜI GIAN KẾT THÚC</th>
-            <th>TUỲ CHỌN</th>
-            <th>TRẠNG THÁI</th>
-        </tr>
-        </thead>
-        <tbody>
-            
+ <table class="table">
+     <thead>
+            <tr align="center">
+                <th>STT</th>
+                <th>HÀNH TRÌNH</th>
+                <th>BẮT ĐẦU</th>
+                <th>KẾT THÚC</th>
+                <th>NHẬN ĐƯỢC</th>
+                <th>TIỀN CỌC</th>
+                <th>OPTIONS</th>
+            </tr>
+     </thead>
+     <tbody>
             @foreach ($job as $key => $j)
-                <tr>
-                    <td>{{$key+1}}</td>
-                    <td>{{$j->price}}$/h</td>
-                    <td>{{$j->ngaykhoihanh}}</td>
-                    <td>{{$j->starttime}}</td>
-                    <td>{{$j->endtime}}</td>
-                    <!-- Button trigger modal -->
-                    
-                    
-                    <!-- Modal -->
-                    
-                    @php
-                        $flask = false;
-                        foreach($tour as $t){
-                            if($t->id == $j->tour_id){
-                                $flask = true;
-                                break;
-                            }else{
-                                $flask = false;
-                            }
-                        }
-                    @endphp
-                    @php
-                        $range = $j->temp_endtime - $j->temp_starttime;
-                        $cost = $range * ($j->price);
-                        $datcoc = $cost * 0.5;
-                    @endphp
-                    @php
-                        foreach($tabledatcoc as $tbldatcoc){
-                            if($tbldatcoc->tour_id == $j->tour_id){
-                                $idtbldatcoc = $tbldatcoc->id;
-                                break;
-                            }
-                        }
-                    @endphp
+                <tr align="center">
+                    <td  scope="row">{{$key+1}}</td>
                     <td>
-                        @if ($flask != true)
-                        <button type="button" class="btn btn-primary editjob" data-id="{{$j->id}}" data-toggle="modal" data-target="#editjob">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        @endif
-                        
-                        <a href="guide/huytour/{{$j->id}}" onclick="guidehuyjob()" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        @php
+                            foreach ($hanhtrinh as $ht) {
+                                if($ht->id == $j->hanhtrinh_id){
+                                    foreach ($diadiem as  $dd) {
+                                        if($dd->id == $ht->diadiem_id){
+                                            echo $dd->name;
+                                        }
+                                    }
+                                }
+                            }
+                        @endphp
                     </td>
                     <td>
-                       
-                        @if ($flask == true)
-                            <form action="guide/guidedatcoc/{{$j->guide_id}}/{{$j->id}}/{{$idtbldatcoc}}" method="post">
-                                <input type="hidden" name="cost" value="{{$datcoc}}">
-                                @csrf
-                                <button type="submit" class="btn btn-primary" onclick="guidedatcoc({{$datcoc}})">{{$datcoc}}$</button>
-                            </form>
+                        {{$j->starttime}}
+                    </td>
+                    <td>
+                        {{$j->endtime}}
+                    </td>
+                    @php
+                        $sothoigian = $j->temp_endtime - $j->temp_starttime;
+                        $tongsotien = $sothoigian * $j->price;
+                        $tiendatcoc = ($sothoigian * $j->price) / 2;
+                    @endphp
+                    <td>
+                        {{$tongsotien}}$
+                    </td>
+                    <td>
+                        {{$tiendatcoc}}$
+                    </td>
+                    <td>
+                        @if ($j->status == 0)
+                            <button class="btn btn-info text-white">Đang chờ</button>
+                            
                         @else
-                            <button class="btn btn-info">Chờ Xác Nhận ..</button>
+                            <button type="submit" class="btn btn-primary">Đã đặt cọc</button>
+                            {{-- @php
+                            $check = true;
+                                foreach($datcoc as $dc){
+                                    if($dc->guide_id == $j->user_id && $dc->hanhtrinh_id == $j->hanhtrinh_id){
+                                        if($dc->status == 0){
+                                            $check = false;
+                                            $iddc = $dc->id;
+                                            $total = $dc->total;
+                                        }
+                                    }
+                                }
+                            @endphp
+                            @if ($check)
+                                <button class="btn btn-warning text-white">Đã đặt cọc</button>
+                                
+                            @else
+                                <form action="hdvdc/{{$iddc}}/{{$j->user_id}}" method="post">
+                                    <input type="hidden" name="total" value="{{$total}}">
+                                    @csrf --}}
+                                    
+                                {{-- </form>
+                            @endif --}}
                         @endif
+                       
                     </td>
                 </tr>
-                
             @endforeach
-            <div class="modal fade" id="editjob" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">EDIT JOB</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="guide/editjob/{{$j->id}}" method="post">
-                                <div class="form-group">
-                                    <label for="">Thời gian bắt đầu ( đơn vị là: giờ )</label>
-                                    <input type="number" min="7" max="20" value="7" name="starttime" 
-                                    value="" class="form-control starttime">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Thời gian kết thúc ( đơn vị là: giờ )</label>
-                                    <input type="number" min="7" max="20" value="20" name="endtime" 
-                                    value="" class="form-control endtime">
-        
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Lương mỗi giờ ( $/h )</label>
-                                    <input type="number" min="1" max="15" name="price" 
-                                    value="" class="form-control price"
-                                    placeholder="Giá đề nghị">
-                                </div>
-                                @csrf
-                                <input type="hidden" name="ngaykhoihanh" value="{{$j->ngaykhoihanh}}">
-                        </div>
-                        <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </tbody>
-    </table>
-    <script>
-        function guidedatcoc($datcoc){
-            var gdc = confirm('Xác nhận đặt cọc công việc này với '+$datcoc+'$ ?');
-            if(gdc != true){
-                event.preventDefault();
-            }
-        }
-
-        function guidehuyjob(event){
-            var ghj = confirm('Xác nhận hủy công việc ?');
-            if(ghj != true){
-                event.preventDefault();
-            }
-        }
-    </script>
-
+            
+     </tbody>
+ </table>
 @endsection
-
-@section('script')
-    <script>
-        $(document).ready(function () {
-            $(".editjob").click(function () { 
-                let id = $(this).data('id');
-                $.ajax({
-                    type: "get",
-                    url: "guide/editjob/"+id,
-                    dataType: "json",
-                    success: function (data) {
-                        $(".starttime").val(data.job.temp_starttime);
-                        $(".endtime").val(data.job.temp_endtime);
-                        $(".price").val(data.job.price);
-                    }
-                });
-            });
-        });
-    </script>
-@endsection
-
-   

@@ -37,14 +37,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function guide()
+    public function job()
     {
-        return $this->hasOne('App\GuideModel', 'user_id', 'id');
+        return $this->hasMany('App\JobModel', 'user_id', 'id');
     }
 
-    public function customer()
+    public function lichtrinh()
     {
-        return $this->hasOne('App\CustomerModel', 'user_id', 'id');
+        return $this->hasOne('App\LichTrinhModel', 'user_id', 'id');
     }
-
 }

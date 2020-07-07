@@ -19,11 +19,11 @@ class GuideMiddleware
         if(Auth::check()){
             $user = Auth::user();
             $level = $user->level;
-            if($level == 2){ // 2 la hdv
+            if($level == 2 || $level == 0){ // 2 la hdv
                 return $next($request);
-            }else{
-                Auth::logout();
-                return redirect('login')->with('thongbao','Đăng nhập bằng tài khoản hướng dẫn viên để sử dụng chức năng');
+            }
+            else{
+                return redirect()->back()->with('thongbao','Cần tài khoản Hướng Dẫn Viên để sử dụng chức năng');
             }
         }else{
             return redirect('login')->with('thongbao','Đăng nhập để sử dụng chức năng');

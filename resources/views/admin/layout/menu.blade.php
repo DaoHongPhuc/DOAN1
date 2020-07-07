@@ -45,32 +45,19 @@
                 <li><a href="admin/guidereg" class="">
                     <span class="fa fa-arrow-right">&nbsp;</span> Request Joinning
                 </a></li>
-                <li><a href="admin/report" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Report
-                </a></li>
-                <li><a href="admin/" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Guide
-                </a></li>
-                <li><a href="admin/" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Block
-                </a></li>
             </ul>
         </li>
         <li class="parent "><a data-toggle="collapse" href="#sub-item-3">
-            <i class="fas fa-map-marked-alt    "></i> Place <span data-toggle="collapse" href="#sub-item-3" class="icon pull-right"><em class="fa fa-plus"></em></span>
+            <i class="fas fa-map-marked-alt "></i> Địa Điểm 
+            <span data-toggle="collapse" href="#sub-item-3" class="icon pull-right"><em class="fa fa-plus">
+                </em></span>
             </a>
             <ul class="children collapse" id="sub-item-3">
-                <li><a href="admin/addplace" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Add Place
+                <li><a href="admin/danhsachdiadiem" class="">
+                    <span class="fa fa-arrow-right">&nbsp;</span> Danh Sách Địa Điểm
                 </a></li>
-                <li><a href="admin/listplace" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> List Place
-                </a></li>
-                <li><a href="admin/adddtplace" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Add Detail Place
-                </a></li>
-                <li><a href="admin/listdtplace" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> List Detail Place
+                <li><a href="admin/themdiadiem" class="">
+                    <span class="fa fa-arrow-right">&nbsp;</span> Thêm Địa Điểm
                 </a></li>
             </ul>
         </li>
