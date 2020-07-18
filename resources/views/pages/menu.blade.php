@@ -11,20 +11,22 @@
                 <ul class="submenu">
                     <li><a href="themlichtrinh">THÊM</a></li>
                     <li><a href="danhsachlichtrinh">DANH SÁCH</a></li>
+                    <li><a href="danhsachsaptoi">SẮP TỚI</a></li>
                 </ul>
             </li>
             <li class="">
                 <div class="link bg-info">JOB<i class="fa fa-chevron-down float-right"></i></div>
                 <ul class="submenu">
                     <li><a href="danhsachjob">DANH SÁCH</a></li>
-                    <li><a href="#">ĐẶT CỌC</a></li>
+                    <li><a href="danhsachsaptoi">SẮP TỚI</a></li>
                 </ul>
             </li>
             <li class="">
                 <div class="link bg-info">PROFILE<i class="fa fa-chevron-down float-right"></i></div>
                 <ul class="submenu">
-                    <li><a href="#">THÔNG TIN</a></li>
                     <li><a href="taikhoan">TÀI KHOẢN</a></li>
+                    <li><a href="thongbao">THÔNG BÁO</a></li>
+
                 </ul>
             </li>
         </ul>
@@ -44,8 +46,8 @@
             <li class="">
                 <div class="link bg-info">PROFILE<i class="fa fa-chevron-down float-right"></i></div>
                 <ul class="submenu">
-                    <li><a href="#">THÔNG TIN</a></li>
                     <li><a href="taikhoan">TÀI KHOẢN</a></li>
+                    <li><a href="thongbao">THÔNG BÁO</a></li>
                 </ul>
             </li>
         </ul>
@@ -63,8 +65,8 @@
                 <li class="">
                     <div class="link bg-info">PROFILE<i class="fa fa-chevron-down float-right"></i></div>
                     <ul class="submenu">
-                        <li><a href="#">THÔNG TIN</a></li>
                         <li><a href="taikhoan">TÀI KHOẢN</a></li>
+                        <li><a href="thongbao">THÔNG BÁO</a></li>
                     </ul>
                     
                 </li>

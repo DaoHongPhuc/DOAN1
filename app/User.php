@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\LichTrinhModel', 'user_id', 'id');
     }
+
+    public function thongbao()
+    {
+        return $this->hasMany('App\ThongBaoModel', 'user_id', 'id');
+    }
 }

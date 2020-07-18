@@ -24,6 +24,10 @@
                 <th>HÀNH TRÌNH</th>
                 <th>BẮT ĐẦU</th>
                 <th>KẾT THÚC</th>
+
+                <th>TỔNG GIỜ</th>
+                <th>$/H</th>
+
                 <th>NHẬN ĐƯỢC</th>
                 <th>TIỀN CỌC</th>
                 <th>OPTIONS</th>
@@ -52,6 +56,14 @@
                     <td>
                         {{$j->endtime}}
                     </td>
+
+                    <td>
+                        {{$j->temp_endtime - $j->temp_starttime}}h
+                    </td>
+                    <td>
+                        {{$j->price}}$
+                    </td>
+
                     @php
                         $sothoigian = $j->temp_endtime - $j->temp_starttime;
                         $tongsotien = $sothoigian * $j->price;
@@ -66,31 +78,10 @@
                     <td>
                         @if ($j->status == 0)
                             <button class="btn btn-info text-white">Đang chờ</button>
-                            
+                            <a href="huyjob/{{$j->hanhtrinh_id}}" class="btn btn-danger">Hủy</a>
                         @else
                             <button type="submit" class="btn btn-primary">Đã đặt cọc</button>
-                            {{-- @php
-                            $check = true;
-                                foreach($datcoc as $dc){
-                                    if($dc->guide_id == $j->user_id && $dc->hanhtrinh_id == $j->hanhtrinh_id){
-                                        if($dc->status == 0){
-                                            $check = false;
-                                            $iddc = $dc->id;
-                                            $total = $dc->total;
-                                        }
-                                    }
-                                }
-                            @endphp
-                            @if ($check)
-                                <button class="btn btn-warning text-white">Đã đặt cọc</button>
-                                
-                            @else
-                                <form action="hdvdc/{{$iddc}}/{{$j->user_id}}" method="post">
-                                    <input type="hidden" name="total" value="{{$total}}">
-                                    @csrf --}}
-                                    
-                                {{-- </form>
-                            @endif --}}
+                            
                         @endif
                        
                     </td>

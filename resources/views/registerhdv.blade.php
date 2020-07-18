@@ -60,43 +60,14 @@
                         <input type="password" name="repassword" class="form-control" placeholder="">
                         
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Họ và tên</label>
                         <input type="text" name="name" class="form-control" placeholder="">
                         
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="">Địa chỉ</label>
-                        <input type="text" name="address" class="form-control" disabled placeholder="">
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="">Số điện thoại</label>
-                        <input type="text" name="phone" class="form-control" disabled placeholder="">
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="">Giới tính</label>
-                        <select class="form-control" name="gender" disabled>
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
-                        </select>
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="">Hình ảnh</label>
-                        <input type="file" name="image" class="form-control" disabled placeholder="">
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <hr>
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="">Địa điểm hướng dẫn của bạn</label>
                         <select class="form-control local" name="diadiem" >
                             
@@ -104,20 +75,11 @@
                                 <option value="{{$dd->id}}">{{$dd->name}}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="">Mô tả Bản thân</label>
-                        <br>
-                        <textarea disabled name="desself"  cols="71" rows="5" class="" style=""></textarea>                        
-                    </div>
-                    <div class="form-group">
-                        <label for="">Sơ lược về lịch trình</label>
-                        <textarea disabled name="deslocal"  cols="71" rows="5" class="" style=""></textarea>                        
-                    </div>
-                </div>
+                <hr>
             </div>
+            <hr>
             <hr>
             <div class="row">
                 <div class="col-md-12">

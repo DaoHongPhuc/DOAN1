@@ -59,6 +59,7 @@ class Controller extends BaseController
         $allhanhtrinh = HanhTrinhModel::all();
         $alljob = JobModel::all()->where('status','=',0);
         $alldatcoc = DatCocModel::all()->where('status','=',1);
+        
         foreach($allichtrinh as $lt){
             $lichtrinh = LichTrinhModel::find($lt->id);
             $lichtrinh->present = $now;

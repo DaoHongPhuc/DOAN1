@@ -14,7 +14,7 @@
     </div>
 @endif
 @php
-    $checkhuyallhanhtrinh = true;
+    $checkk = true;
     $array = array();
     foreach($datcoc as $dc){
         foreach ($hanhtrinh as $ht) {
@@ -24,8 +24,8 @@
             }
         }
     }
-    if(count($hanhtrinh) == count($array)){
-        $checkhuyallhanhtrinh = false;
+    if(count($hanhtrinh) == count($array) && count($hanhtrinh)  > 0 ){
+        $checkk = false;
     }
 @endphp
 
@@ -108,19 +108,22 @@
         <a href="danhsachlichtrinh" class="btn btn-secondary">Trở về danh sách lịch trình</a>
         
     @else
+        @if ($checkk)
 
-        <a href="themhanhtrinh/{{$lichtrinh->id}}" class="btn btn-success">Thêm 1 hành trình</a>
-            
+            <a href="themhanhtrinh/{{$lichtrinh->id}}" class="btn btn-success">Thêm 1 hành trình</a>
 
-        @if ($lichtrinh->status == 0)
-            <a href="congbolichtrinh/{{$lichtrinh->id}}" class="btn btn-info">Công bố lịch trình</a>
+            @if ($lichtrinh->status == 0)
+                <a href="congbolichtrinh/{{$lichtrinh->id}}" class="btn btn-info">Công bố lịch trình</a>
+            @else
+                <a href="congbolichtrinh/{{$lichtrinh->id}}" class="btn btn-info">Đóng lịch trình</a>
+            @endif
         @else
-            <a href="congbolichtrinh/{{$lichtrinh->id}}" class="btn btn-info">Ẩn lịch trình</a>
+            <a href="danhsachsaptoi" class="btn btn-primary">Danh sách sắp tới</a>
+
         @endif
-        
-        @if ($checkhuyallhanhtrinh)
-            <a href="huyallhanhtrinh/{{$lichtrinh->id}}" class="btn btn-danger">Hủy toàn bộ hành trình</a>
-        @endif
+
+        {{-- <a href="huyallhanhtrinh/{{$lichtrinh->id}}" class="btn btn-danger">Hủy toàn bộ hành trình</a> --}}
+
         <a href="danhsachlichtrinh" class="btn btn-secondary">Trở về danh sách lịch trình</a>
     @endif
     

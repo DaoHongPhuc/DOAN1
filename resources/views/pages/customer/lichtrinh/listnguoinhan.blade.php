@@ -31,6 +31,10 @@
                 <th>TÊN HDV</th>
                 <th>BẮT ĐẦU</th>
                 <th>KẾT THÚC</th>
+
+                <th>TỔNG GIỜ</th>
+                <th>$/H</th>
+
                 <th>PHẢI TRẢ</th>
                 <th>ĐẶT CỌC</th>
                 <th>OPTION</th>
@@ -50,11 +54,20 @@
                     </td>
                     <td>{{$dsnn->starttime}}</td>
                     <td>{{$dsnn->endtime}}</td>
+
                     @php
                         $sothoigian = $dsnn->temp_endtime - $dsnn->temp_starttime;
                         $tongsotien = $sothoigian * $dsnn->price;
                         $tiendatcoc = ($sothoigian * $dsnn->price) / 2;
                     @endphp
+                    
+                    <td>
+                        {{$dsnn->temp_endtime - $dsnn->temp_starttime}}h
+                    </td>
+                    <td>
+                        {{$dsnn->price}}$
+                    </td>
+                       
                     <td>{{$tongsotien}}$</td>
                     <td>{{$tiendatcoc}}$</td>
                     <td>

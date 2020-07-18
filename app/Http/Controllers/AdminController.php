@@ -12,6 +12,42 @@ use App\DiaDiemModel;
 
 class AdminController extends Controller
 {
+    public function postAdminRegister(Request $request){
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required',
+            'password'=>'required|min:3',
+        ],
+        [
+            'email.required'=>'Chưa nhập Email',
+            'name.required'=>'Chưa nhập Name',
+            'password.required'=>'Chưa nhập Password',
+            'password.min'=>'Password tối thiểu 3 ký tự',
+        ]);
+
+        $user = new User;
+        if($request->role == 1){
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->level = "1";
+            $user->taikhoan = "0";
+
+        }elseif($request->role == 2){
+            
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->level = "2";
+            $user->taikhoan = "0";
+        }
+        $user->save();
+
+        return redirect()->back()->with('thongbao','Tạo thành công');
+    }
+    public function getAddUser(){
+        return view('admin.pages.user');
+    }
     public function getLogout(){
         Auth::logout();
 

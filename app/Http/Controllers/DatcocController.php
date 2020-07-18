@@ -12,9 +12,18 @@ use App\LichTrinhModel;
 use App\HanhTrinhModel;
 use App\DatCocModel;
 use App\JobModel;
+use App\ThongBaoModel;
 
 class DatCocController extends Controller
 {
+    public function postThongBao($iduser, $money){
+        $thongbao = new ThongBaoModel;
+        $thongbao->user_id = $iduser;
+        $thongbao->noidung = 'Bạn đã nhận được số tiền là: $'.$money;
+        $thongbao->status = "0";
+
+        $thongbao->save();
+    }
     public function postHuy1HTDC(Request $request, $iddc, $idhdv, $idkh){
    
         $datcoc = DatCocModel::find($iddc);
@@ -23,29 +32,90 @@ class DatCocController extends Controller
 
         $hdv = User::find($idhdv);
         $hdv->taikhoan += $total * $request->heso;
+        DatCocController::postThongBao($idhdv,$total * $request->heso);
         $hdv->save();
 
         $cus = User::find($idkh);
         $cus->taikhoan += $total * $request->heso;
+        DatCocController::postThongBao($idkh,$total * $request->heso);
         $cus->save();
 
         DB::table('job')->where('user_id','=',$hdv->id)->where('hanhtrinh_id','=',$idhanhtrinh)->delete();
-        DB::table('hanhtrinh')->where('id','=',$idhanhtrinh)->delete();
 
         $datcoc->delete();
 
         return redirect()->back()->with('thongbao','Đã hủy hành trình và hoàn cọc');
     }
 
-    public function postHuyAHTDC(Request $request, $idlt, $idhdv, $idkh){
+    public function postHuyAHTDC(Request $request, $idlt){
+        if(Auth::check()){
+            $user = Auth::user();
+            $idcus = $user->id;
+        }
 
+        $datcoc = DB::table('datcoc')->where('lichtrinh_id','=',$idlt)->get();
 
+        $arrayGuide = array();
+        $arrayPresent = array();
+        $arrayStarttime = array();
+        $arrayTotal = array();
+        foreach($datcoc as $dc){
+            $arrayTotal[] = $dc->total;
+        }
+        foreach($datcoc as $dc){
+            $arrayGuide[] = $dc->guide_id;
+        }
+        foreach($datcoc as $dc){
+            $arrayPresent[] = $dc->present;
+        }
+        foreach($datcoc as $dc){
+            $arrayStarttime[] = $dc->starttime;
+        }
+        for($i = 0; $i < count($datcoc); $i++){
+            if(strtotime($arrayStarttime[$i]) - strtotime($arrayPresent[$i]) >= 864000){
+                $guide = User::find($arrayGuide[$i]);
+                $cus = User::find($idcus);
 
-        // DB::table('hanhtrinh')->where('lichtrinh_id','=',$idlt)->delete();
-        // DB::table('job')->where('lichtrinh_id','=',$idlt)->delete();
-        // DB::table('datcoc')->where('lichtrinh_id','=',$idlt)->delete();
+                $guide->taikhoan += $arrayTotal[$i]/2;
+                DatCocController::postThongBao($arrayGuide[$i],$arrayTotal[$i]/2);
 
-        // return redirect()->back()->with('thongbao','Đã đặt cọc');
+                $cus->taikhoan += $arrayTotal[$i]/2;
+                DatCocController::postThongBao($idcus,$arrayTotal[$i]/2);
+                
+                $guide->save();
+                $cus->save();
+            }elseif(strtotime($arrayStarttime[$i]) - strtotime($arrayPresent[$i]) <= 432000){
+                $guide = User::find($arrayGuide[$i]);
+                $cus = User::find($idcus);
+
+                $guide->taikhoan += $arrayTotal[$i] * 0;
+                DatCocController::postThongBao($arrayGuide[$i],$arrayTotal[$i] * 0);
+
+                $cus->taikhoan += $arrayTotal[$i] * 0;
+                DatCocController::postThongBao($idcus,$arrayTotal[$i] * 0);
+                
+                $guide->save();
+                $cus->save();
+                
+            }else{
+                $guide = User::find($arrayGuide[$i]);
+                $cus = User::find($idcus);
+
+                $guide->taikhoan += $arrayTotal[$i]/4;
+                DatCocController::postThongBao($arrayGuide[$i],$arrayTotal[$i]/4);
+
+                $cus->taikhoan += $arrayTotal[$i]/4;
+                DatCocController::postThongBao($idcus,$arrayTotal[$i]/4);
+
+                $guide->save();
+                $cus->save();
+            }
+        }
+
+        DB::table('job')->where('lichtrinh_id','=',$idlt)->delete();
+        DB::table('datcoc')->where('lichtrinh_id','=',$idlt)->delete();
+
+        return redirect()->back()->with('thongbao','Đã hủy toàn bộ hành trình đã đặt cọc trong lịch trình và hoàn cọc');
         
     }
     
@@ -61,7 +131,6 @@ class DatCocController extends Controller
         $user = User::all();
 
         $datcoc = DB::table('datcoc')->where('hanhtrinh_id','=',$hanhtrinh->id)->get();
-
         return view('pages.customer.lichtrinh.listnguoinhan',[
             'datcoc'=>$datcoc,
             'hanhtrinh'=>$hanhtrinh,

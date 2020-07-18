@@ -11,27 +11,70 @@ use App\DiaDiemModel;
 use App\LichTrinhModel;
 use App\HanhTrinhModel;
 use App\DatCocModel;
+use App\ThongBaoModel;
 
 class HomeController extends Controller
 {
+    public function postProfile(Request $request){
+        if(Auth::check()){
+            $user = Auth::user();
+            $iduser = $user->id;
+        }
+        $this->validate($request,
+        [
+            'password'=>'min:3',
+            'repassword'=>'same:password',
+        ],
+        [
+            'name.required'=>'Chưa nhập Name',
+            'password.min'=>'Password tối thiểu 3 ký tự',
+            'repassword.same'=>'Mật khẩu không trùng khớp',
+        ]);
+
+        $info = User::find($iduser);
+        $info->name = $request->name;
+        $info->password = bcrypt($request->password);
+
+        $info->save();
+        return redirect()->back()->with('thongbao','Update Thành Công');
+
+    }
+    public function getProfile(){
+        if(Auth::check()){
+            $user = Auth::user();
+            $iduser = $user->id;
+        }
+        $infor = User::find($iduser);
+        return view('pages.profile',['infor'=>$infor]);
+    }
+
+    public function getThongBao(){
+        if(Auth::check()){
+            $user = Auth::user();
+            $iduser = $user->id;
+        }
+        $thongbao = DB::table('thongbao')->where('user_id','=',$iduser)->orderBy('created_at','desc')->get();
+        // $thongbao = ThongBaoModel::all()->where('user_id','=',$iduser);
+        return view('pages.thongbao',['thongbao'=>$thongbao]);
+    }
+
     public function getListSapToi(){
 
         $alluser = User::all();
         $diadiem = DiaDiemModel::all();
-        
+        $hanhtrinh = HanhTrinhModel::all();
 
         if(Auth::check()){
             $user = Auth::user();
             $iduser = $user->id;
-            $lichtrinh = LichTrinhModel::all();
-            $hanhtrinh = HanhTrinhModel::all();
+            $lichtrinh = LichTrinhModel::all()->where('user_id','=',$iduser);
+           
             if($user->level == 1){
                 $datcoc = DB::table('datcoc')->where('customer_id','=',$iduser)->get();
             }elseif($user->level == 2){
                 $datcoc = DB::table('datcoc')->where('guide_id','=',$iduser)->get();
             }else{
                 $datcoc = DB::table('datcoc')->get();
-                
             }
         }
 
@@ -124,7 +167,6 @@ class HomeController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->name = $request->name;
-        $user->diadiem = null;
         $user->taikhoan = "0";
         $user->level = "1";
 
@@ -145,11 +187,9 @@ class HomeController extends Controller
             'email'=>'required',
             're_password'=>'same:password',
             'password'=>'required|min:3',
-            'diadiem'=>'required',
         ],
         [
             'email.required'=>'Chưa nhập Email',
-            'diadiem.required'=>'Chưa nhập Địa Điểm',
             'name.required'=>'Chưa nhập Name',
             'password.required'=>'Chưa nhập Password',
             'password.min'=>'Password tối thiểu 3 ký tự',
@@ -160,7 +200,6 @@ class HomeController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->name = $request->name;
-        $user->diadiem = $request->diadiem;
         $user->taikhoan = "0";
         $user->level = "2";
 

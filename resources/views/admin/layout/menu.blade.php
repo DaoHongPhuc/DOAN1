@@ -24,17 +24,8 @@
             <i class="fa fa-user" aria-hidden="true"></i> Users <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
             </a>
             <ul class="children collapse" id="sub-item-1">
-                <li><a href="admin/listadmin" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Admin
-                </a></li>
-                <li><a href="admin/listcustomer" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Customer
-                </a></li>
-                <li><a href="admin/listguide" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Guide
-                </a></li>
-                <li><a href="admin/listblock" class="">
-                    <span class="fa fa-arrow-right">&nbsp;</span> Block
+                <li><a href="admin/adduser" class="">
+                    <span class="fa fa-arrow-right">&nbsp;</span> ADD
                 </a></li>
             </ul>
         </li>

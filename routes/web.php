@@ -16,14 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('admin/login','AdminController@getLogin');
 Route::post('admin/login','AdminController@postLogin');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin','middleware'=>'adminlogin'], function () {
     Route::get('dashboard','AdminController@getDashBoard');
 
     Route::get('danhsachdiadiem','AdminController@getListDD');
     Route::get('themdiadiem','AdminController@getAddDD');
     Route::post('themdiadiem','AdminController@postAddDD');
 
-
+    Route::get('adduser','AdminController@getAddUser');
+    Route::post('adminregister','AdminController@postAdminRegister');
     Route::get('logout','AdminController@getLogout');
 
 });
@@ -45,6 +46,9 @@ Route::post('registerhdv','HomeController@postRegisterHDV');
 Route::get('chitietlichtrinh/{idlt}','HomeController@getChiTietLT');
 
 Route::get('danhsachsaptoi','HomeController@getListSapToi');
+Route::get('thongbao','HomeController@getThongBao');
+Route::get('profile','HomeController@getProfile');
+Route::post('profile','HomeController@postProfile');
 
 Route::get('taikhoan','HomeController@getTaiKhoan');
 Route::post('taikhoan','HomeController@postTaiKhoan');
@@ -61,7 +65,7 @@ Route::group(['middleware'=>'customer'], function () {
     Route::get('themhanhtrinh/{idlt}','CustomerController@getAddHanhTrinh');
     Route::post('themhanhtrinh/{idlt}','CustomerController@postAddHanhTrinh');
     
-    Route::get('huyallhanhtrinh/{idlt}','CustomerController@postHuyAllHanhTrinh');
+    // Route::get('huyallhanhtrinh/{idlt}','CustomerController@postHuyAllHanhTrinh');
 
     Route::get('congbolichtrinh/{idlt}','CustomerController@postCongBoLichTrinh');
     Route::get('xoahanhtrinh/{idht}','CustomerController@postXoaHanhTrinh');
@@ -70,7 +74,7 @@ Route::group(['middleware'=>'customer'], function () {
     Route::post('nhanhdv/{idj}/{idhdv}/{idht}','DatCocController@postNhanHDV');
 
     Route::post('huy1hanhtrinhdacoc/{iddc}/{idguide}/{idcus}','DatCocController@postHuy1HTDC');
-    Route::post('huyallhanhtrinhdacoc/{idlt}/{idguide}/{idcus}','DatCocController@postHuyAHTDC');
+    Route::get('huyallhanhtrinhdacoc/{idlt}','DatCocController@postHuyAHTDC');
     
 });
 
@@ -81,6 +85,7 @@ Route::group(['middleware'=>'guide'], function () {
 
     Route::get('danhsachjob','GuideController@getDanhSachJob');
     Route::post('hdvdc/{iddc}/{idhdv}','DatCocController@postHDVDC');
+    Route::get('huyjob/{idht}','GuideController@postHDVHuy');
     
 });
 

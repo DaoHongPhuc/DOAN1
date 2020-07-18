@@ -47,7 +47,7 @@
                             <dl>
                                 @foreach ($lichtrinh as $key => $lt)
                                     <dt><a href="#accordion{{$key+1}}" aria-expanded="false" aria-controls="accordion1" 
-                                        class="accordion-title accordionTitle js-accordionTrigger">{{$lt->name}}</a></dt>
+                                        class="accordion-title accordionTitle js-accordionTrigger">LỊCH TRÌNH {{$lt->name}}</a></dt>
                                     <dd class="accordion-content accordionItem is-collapsed" id="accordion{{$key+1}}" aria-hidden="true">
                                         {{-- noidung --}}
                                         
@@ -67,7 +67,6 @@
                                                     @endif
                                                     @if ($user->level == 1)
                                                         <th>CHI PHÍ ( ĐÃ TÍNH CỌC)</th>
-                                                        
                                                     @endif
                                                     <th>HOÀN CỌC</th>
                                                     <th>TRẠNG THÁI</th>
@@ -174,8 +173,13 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                        {{-- <a href="{{$lt->id}}">asdad</a> --}}
+                                        
+                                        @if ($user->level == 1)
+                                        <a onclick="xacnhanhuytatcahanhtrinhdadatcoc(event)" href="huyallhanhtrinhdacoc/{{$lt->id}}" class="btn btn-danger float-right">
+                                            Hủy Toàn Bộ</a>
                                         <div class="clear"></div>
+                                        @endif
+                                        
                                         </dd>
                                 @endforeach
                             </dl>

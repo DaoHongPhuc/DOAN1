@@ -45,11 +45,11 @@ class CustomerController extends Controller
         
     }
 
-    public function postHuyAllHanhTrinh($idlt){
-        $hanhtrinh = DB::table('hanhtrinh')->where('lichtrinh_id','=',$idlt)->delete();
+    // public function postHuyAllHanhTrinh($idlt){
+    //     $hanhtrinh = DB::table('hanhtrinh')->where('lichtrinh_id','=',$idlt)->delete();
 
-        return redirect()->back()->with('thongbao','Hủy thành công');
-    }
+    //     return redirect()->back()->with('thongbao','Hủy thành công');
+    // }
 
     public function postAddHanhTrinh(Request $request, $idlt){
         $this->validate($request,
@@ -61,32 +61,23 @@ class CustomerController extends Controller
             'diadiem.required'=>'Chưa nhập Địa Điểm Hành Trình',
             'ngaykhoihanh.required'=>'Chưa nhập Ngày Khởi Hành',
         ]);
-        $checkdiadiem = true;
+     
 
-        $htmaxnkh = DB::table('hanhtrinh')->where('lichtrinh_id','=',$idlt)->orderBy('ngaykhoihanh','desc')->limit(1)->get();
-        $allht = HanhTrinhModel::all()->where('lichtrinh_id',$idlt);
+        $now = Carbon::now();
         
-        foreach($allht as $aht){
-            if($request->diadiem == $aht->diadiem_id){
-                $checkdiadiem = false;
-            }
-        }
-        foreach($htmaxnkh as $ht){
-            if($request->ngaykhoihanh > $ht->ngaykhoihanh){
-                $checknkh = strtotime($request->ngaykhoihanh) - strtotime($ht->ngaykhoihanh); 
-            }
-        }
-
-        $hanhtrinh = new HanhTrinhModel;
-    
-        $hanhtrinh->diadiem_id = $request->diadiem;
-        $hanhtrinh->lichtrinh_id = $idlt;
-        $hanhtrinh->ngaykhoihanh = $request->ngaykhoihanh;
-
-        $hanhtrinh->save();
-        return redirect()->back()->with('thongbao','Thêm Hành Trình Thành Công');
-           
+        $result = strtotime($request->ngaykhoihanh) - strtotime($now);
+        if($result > 864000){
+            $hanhtrinh = new HanhTrinhModel;
         
+            $hanhtrinh->diadiem_id = $request->diadiem;
+            $hanhtrinh->lichtrinh_id = $idlt;
+            $hanhtrinh->ngaykhoihanh = $request->ngaykhoihanh;
+
+            $hanhtrinh->save();
+            return redirect()->back()->with('thongbao','Thêm Hành Trình Thành Công');
+        }else{
+            return redirect()->back()->with('thongbao','Hành trình được lên sau 10 ngày kể từ bây giờ');
+        }
         
     }
 

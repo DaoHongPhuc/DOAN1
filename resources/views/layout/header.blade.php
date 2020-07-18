@@ -36,11 +36,13 @@
                                 @if ($user->level == 2) 
                                     <span class="dropdown-item">{{$user->name}}</span>    
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="guide/information/">MY PROFILE</a>
+                                    <a class="dropdown-item" href="taikhoan">MY ACCOUNT</a>
+                                    <a class="dropdown-item" href="profile">PROFILE</a>
                                 @else
                                     <span class="dropdown-item">{{$user->name}}</span>    
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="customer/information/">MY PROFILE</a>
+                                    <a class="dropdown-item" href="profile">PROFILE</a>
+                                    <a class="dropdown-item" href="taikhoan">MY ACCOUNT</a>
                                 @endif
                                 
                                 <a class="dropdown-item" href="logout">LOG OUT</a>

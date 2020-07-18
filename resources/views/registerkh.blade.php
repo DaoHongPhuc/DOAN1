@@ -61,39 +61,15 @@
                         <input type="password" name="repassword" class="form-control" placeholder="">
                         
                     </div>
+                    
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Họ và tên</label>
                         <input type="text" name="name" class="form-control" placeholder="">
                         
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="">Địa chỉ</label>
-                        <input type="text" name="address" class="form-control " disabled placeholder="">
-                         
-                    </div>
-                    <div class="form-group">
-                        <label for="">Số điện thoại</label>
-                        <input type="text" name="phone" class="form-control " disabled placeholder="">
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="">Giới tính</label>
-                        <select class="form-control " disabled name="gender">
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
-                        </select>
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="">Ảnh Đại Diện</label>
-                        <input type="file" name="image" disabled class="form-control " placeholder="">
-                        
-                    </div>
-                    
-                </div>
-                <hr>
             </div>
             
             <hr>
