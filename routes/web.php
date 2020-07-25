@@ -46,6 +46,7 @@ Route::post('registerhdv','HomeController@postRegisterHDV');
 Route::get('chitietlichtrinh/{idlt}','HomeController@getChiTietLT');
 
 Route::get('danhsachsaptoi','HomeController@getListSapToi');
+Route::get('danhsachsaptoig','HomeController@getListSapToiG');
 Route::get('thongbao','HomeController@getThongBao');
 Route::get('profile','HomeController@getProfile');
 Route::post('profile','HomeController@postProfile');

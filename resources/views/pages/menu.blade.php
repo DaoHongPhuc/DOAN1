@@ -59,7 +59,7 @@
                     <div class="link bg-info">JOB<i class="fa fa-chevron-down float-right"></i></div>
                     <ul class="submenu">
                         <li><a href="danhsachjob">DANH SÁCH</a></li>
-                        <li><a href="danhsachsaptoi">SẮP TỚI</a></li>
+                        <li><a href="danhsachsaptoig">SẮP TỚI</a></li>
                     </ul>
                 </li>
                 <li class="">

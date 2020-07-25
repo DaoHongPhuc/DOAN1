@@ -6,9 +6,7 @@
     $id = $user->id;
 @endphp
 <div class="container">
-    <div class="title-index-parent-r">
-        <h2 class="title-index-r">KHU VỰC CÁ NHÂN</h2>
-    </div>
+
     @if(count($errors) > 0)
     <div class="alert alert-danger" role="alert">
         @foreach ($errors->all() as $err)
@@ -28,7 +26,7 @@
         
         <div class="col-md-10">
             <div class="title-index-parent">
-                <h2 class="title-index">DANH SÁCH HÀNH TRÌNH ĐÃ NHẬN</h2>
+                <h2 class="title-index">THÔNG TIN CÁ NHÂN</h2>
             </div>
             <form action="profile" method="post">
                 <div class="form-group">

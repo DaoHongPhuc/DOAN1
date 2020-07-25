@@ -12,9 +12,32 @@ use App\LichTrinhModel;
 use App\HanhTrinhModel;
 use App\DatCocModel;
 use App\ThongBaoModel;
+use App\JobModel;
 
 class HomeController extends Controller
 {
+    public function getListSapToiG(){
+
+        if(Auth::check()){
+            $user = Auth::user();
+            $iduser = $user->id;
+        }
+        $alluser = User::all();
+        $datcoc = DB::table('datcoc')->where('guide_id','=',$iduser)->get();
+        $lichtrinh = LichtrinhModel::all();
+        $hanhtrinh = HanhTrinhModel::all();
+        $diadiem = DiaDiemModel::all();
+        $job = JobModel::all()->where('user_id','=',$iduser);
+        return view('pages.dsstg',[
+            'datcoc'=>$datcoc,
+            'alluser'=>$alluser,
+            'lichtrinh'=>$lichtrinh,
+            'hanhtrinh'=>$hanhtrinh,
+            'diadiem'=>$diadiem,
+            'job'=>$job,
+            ]);
+    }
+
     public function postProfile(Request $request){
         if(Auth::check()){
             $user = Auth::user();
